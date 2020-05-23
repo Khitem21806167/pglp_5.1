@@ -1,4 +1,10 @@
 package Exo.pglp4_1;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import java.time.format.DateTimeFormatter;
@@ -8,7 +14,7 @@ import java.util.Vector;
 import java.util.stream.Collectors;
 import java.util.List;
 
-public class Personnel extends TypePersonnel  {
+public class Personnel extends TypePersonnel implements Serializable {
 	private String nom;
 	private String prenom; 
 	private LocalDate dateNais;
@@ -135,9 +141,53 @@ public class Personnel extends TypePersonnel  {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	//DEVELOPPONS EN JAVA (source)
+	public void serialiser(String FileDestination) {
+		
+	  ObjectOutputStream oos = null;
 
+	    try {
+	      final FileOutputStream fichier = new FileOutputStream("mon_objet.ser");
+	      if (fichier==null)
+	      {
+	    	  System.out.println("le fichier est nul");
+	      }
+	      oos = new ObjectOutputStream(fichier);
+	      oos.writeObject(this);
+	      
+	    } catch (final java.io.IOException e) {
+	      e.printStackTrace();
+	    } finally {
+	      try {
+	        if (oos != null) {
+	          oos.flush();
+	          oos.close();
+	        }
+	      } catch (final IOException ex) {
+	        ex.printStackTrace();
+	      }
+	    }
+	}
 	
-	
+	public static Personnel deserialiser(String FileSource)
+	{
+		Personnel e=null;
+		try {
+	         FileInputStream fileIn = new FileInputStream(FileSource);
+	         ObjectInputStream in = new ObjectInputStream(fileIn);
+	         e = (Personnel) in.readObject();
+	         in.close();
+	         fileIn.close();
+	         return e;
+	      } catch (IOException i) {
+	         i.printStackTrace();
+	         return null;
+	      } catch (ClassNotFoundException c) {
+	         c.printStackTrace();
+	         return null;
+	      }
+	    
+	}
 	
 
 }

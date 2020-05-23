@@ -37,7 +37,8 @@ ENVIRONNEMENT;
 		pg1.addP(p3);
 		pg3.addP(p3);
 		
-
+		pg1.serialiser("./serialisation.txt");
+		p1.serialiser("./serialisationpersonnel.txt");
 		System.out.println(p1);
 		return pg1;
 	}	
